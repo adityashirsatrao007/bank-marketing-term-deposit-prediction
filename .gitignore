@@ -1,0 +1,46 @@
+# Python files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+downloads/
+eggs/
+.lib/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv
+venv
+ENV
+env
+.env
+bin/
+lib/
+include/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Datasets and Binaries
+data/
+*.zip
+*.csv
+*.pkl
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+.project
+.pydevproject

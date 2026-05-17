@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Marketing Campaign Predictor</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-building-columns"></i></div>
+                <div class="logo-text">
+                    <h1>Aegis Predict</h1>
+                    <span>Bank Marketing Analytics</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="simulator"><i class="fa-solid fa-sliders"></i> Client Simulator</button>
+                <button class="nav-item" data-tab="scoreboard"><i class="fa-solid fa-chart-simple"></i> Model Scoreboard</button>
+                <button class="nav-item" data-tab="visuals"><i class="fa-solid fa-images"></i> Visual Analytics</button>
+                <button class="nav-item" data-tab="info"><i class="fa-solid fa-circle-info"></i> Project Details</button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="pipeline-badge">
+                    <span class="pulse-dot"></span>
+                    <span>Pipeline Status: Active</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header Area -->
+            <header class="content-header">
+                <div class="header-title-area">
+                    <span class="breadcrumb">UCI BANK MARKETING DATASET</span>
+                    <h2 id="page-title">Client Subscription Simulator</h2>
+                </div>
+                <div class="header-controls">
+                    <a href="https://github.com/adityashirsatrao007/bank-marketing-campaign-prediction" target="_blank" class="github-btn">
+                        <i class="fa-brands fa-github"></i> GitHub Repo
+                    </a>
+                </div>
+            </header>
+
+            <!-- Tab 1: Client Simulator -->
+            <section class="tab-content active" id="tab-simulator">
+                <div class="simulator-layout">
+                    <!-- Form inputs -->
+                    <div class="card glass-card form-card">
+                        <div class="card-header">
+                            <i class="fa-solid fa-id-card"></i>
+                            <h3>Client Attributes</h3>
+                        </div>
+                        <form id="simulator-form" autocomplete="off">
+                            <div class="form-grid">
+                                <!-- Numerical Fields -->
+                                <div class="form-group">
+                                    <label for="input-age">Age (Years) <span class="val-display" id="age-val">35</span></label>
+                                    <input type="range" id="input-age" min="18" max="95" value="35" class="slider">
+                                    <span class="range-bounds"><span>18</span><span>95</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-balance">Yearly Average Balance (EUR)</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-euro-sign input-icon"></i>
+                                        <input type="number" id="input-balance" value="1500" placeholder="e.g. 1500">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-duration">Call Duration (Seconds) <span class="val-display" id="duration-val">250s</span></label>
+                                    <input type="range" id="input-duration" min="0" max="1500" value="250" class="slider">
+                                    <span class="range-bounds"><span>0</span><span>1500</span></span>
+                                    <div class="info-tip"><i class="fa-solid fa-circle-exclamation"></i> Tip: Highly predictive, but only known after a call.</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-campaign">Campaign Contacts <span class="val-display" id="campaign-val">1</span></label>
+                                    <input type="range" id="input-campaign" min="1" max="20" value="1" class="slider">
+                                    <span class="range-bounds"><span>1</span><span>20</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-pdays">Days Since Last Campaign</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-calendar-days input-icon"></i>
+                                        <input type="number" id="input-pdays" value="-1" placeholder="e.g. -1 for never">
+                                    </div>
+                                    <div class="info-tip">Use -1 if client was never contacted before.</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-previous">Previous Contacts <span class="val-display" id="previous-val">0</span></label>
+                                    <input type="range" id="input-previous" min="0" max="15" value="0" class="slider">
+                                    <span class="range-bounds"><span>0</span><span>15</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-day">Day of Month <span class="val-display" id="day-val">15</span></label>
+                                    <input type="range" id="input-day" min="1" max="31" value="15" class="slider">
+                                    <span class="range-bounds"><span>1</span><span>31</span></span>
+                                </div>
+
+                                <!-- Categorical Fields -->
+                                <div class="form-group">
+                                    <label for="input-job">Job Industry</label>
+                                    <select id="input-job"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-marital">Marital Status</label>
+                                    <select id="input-marital"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-education">Education Level</label>
+                                    <select id="input-education"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-contact">Contact Communication</label>
+                                    <select id="input-contact"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-month">Last Contact Month</label>
+                                    <select id="input-month"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-poutcome">Outcome of Prev Campaign</label>
+                                    <select id="input-poutcome"></select>
+                                </div>
+
+                                <!-- Boolean Radio Groups -->
+                                <div class="form-group span-2">
+                                    <div class="radio-row">
+                                        <div class="radio-group">
+                                            <span class="radio-label">Has Credit Default?</span>
+                                            <div class="radio-options">
+                                                <label class="radio-container">No
+                                                    <input type="radio" name="default" value="no" checked>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radio-container">Yes
+                                                    <input type="radio" name="default" value="yes">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="radio-group">
+                                            <span class="radio-label">Has Housing Loan?</span>
+                                            <div class="radio-options">
+                                                <label class="radio-container">No
+                                                    <input type="radio" name="housing" value="no">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radio-container">Yes
+                                                    <input type="radio" name="housing" value="yes" checked>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="radio-group">
+                                            <span class="radio-label">Has Personal Loan?</span>
+                                            <div class="radio-options">
+                                                <label class="radio-container">No
+                                                    <input type="radio" name="loan" value="no" checked>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radio-container">Yes
+                                                    <input type="radio" name="loan" value="yes">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Prediction output display -->
+                    <div class="simulator-results">
+                        <!-- Logistic Regression Result -->
+                        <div class="card glass-card result-card lr-card">
+                            <div class="card-header">
+                                <span class="model-badge lr-badge">MODEL A</span>
+                                <h3>Logistic Regression</h3>
+                            </div>
+                            <div class="gauge-container">
+                                <div class="circular-progress" id="lr-progress" style="background: conic-gradient(#3b82f6 0deg, #1e293b 0deg)">
+                                    <div class="inner-value" id="lr-val-text">0.0%</div>
+                                </div>
+                                <span class="gauge-label">Subscription Probability</span>
+                            </div>
+                            <div class="prediction-conclusion" id="lr-conclusion">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <span>Unlikely to subscribe</span>
+                            </div>
+                        </div>
+
+                        <!-- Gradient Boosting Result -->
+                        <div class="card glass-card result-card gb-card">
+                            <div class="card-header">
+                                <span class="model-badge gb-badge">MODEL B</span>
+                                <h3>Gradient Boosting</h3>
+                            </div>
+                            <div class="gauge-container">
+                                <div class="circular-progress" id="gb-progress" style="background: conic-gradient(#14b8a6 0deg, #1e293b 0deg)">
+                                    <div class="inner-value" id="gb-val-text">0.0%</div>
+                                </div>
+                                <span class="gauge-label">Subscription Probability</span>
+                            </div>
+                            <div class="prediction-conclusion" id="gb-conclusion">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <span>Unlikely to subscribe</span>
+                            </div>
+                        </div>
+
+                        <!-- Live Feature Analysis -->
+                        <div class="card glass-card signal-summary-card">
+                            <div class="card-header">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <h3>Key Risk Assessment</h3>
+                            </div>
+                            <div class="risk-factors">
+                                <div class="factor-item" id="factor-duration">
+                                    <div class="factor-header">
+                                        <span class="factor-title">Call Duration Impact</span>
+                                        <span class="factor-status neuter" id="status-duration">Moderate</span>
+                                    </div>
+                                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-duration"></div></div>
+                                </div>
+                                <div class="factor-item" id="factor-balance">
+                                    <div class="factor-header">
+                                        <span class="factor-title">Financial Balance Level</span>
+                                        <span class="factor-status" id="status-balance">Stable</span>
+                                    </div>
+                                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-balance"></div></div>
+                                </div>
+                                <div class="factor-item" id="factor-housing">
+                                    <div class="factor-header">
+                                        <span class="factor-title">Housing Debt Liability</span>
+                                        <span class="factor-status positive" id="status-housing">None</span>
+                                    </div>
+                                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-housing"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: Model Scoreboard -->
+            <section class="tab-content" id="tab-scoreboard">
+                <div class="scoreboard-metrics-grid">
+                    <!-- Stat Card: Accuracy -->
+                    <div class="card glass-card metric-card">
+                        <div class="metric-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="metric-vals">
+                            <span class="metric-title">Accuracy Score</span>
+                            <div class="model-scores">
+                                <div class="model-score-row"><span>Logistic Regression:</span> <strong id="score-lr-accuracy">0.00%</strong></div>
+                                <div class="model-score-row"><span>Gradient Boosting:</span> <strong id="score-gb-accuracy">0.00%</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat Card: F1 Score -->
+                    <div class="card glass-card metric-card">
+                        <div class="metric-icon coral-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+                        <div class="metric-vals">
+                            <span class="metric-title">F1-Score (Harmonic Mean)</span>
+                            <div class="model-scores">
+                                <div class="model-score-row"><span>Logistic Regression:</span> <strong id="score-lr-f1">0.00%</strong></div>
+                                <div class="model-score-row"><span>Gradient Boosting:</span> <strong id="score-gb-f1">0.00%</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat Card: ROC-AUC -->
+                    <div class="card glass-card metric-card">
+                        <div class="metric-icon teal-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="metric-vals">
+                            <span class="metric-title">ROC-AUC (Discriminator)</span>
+                            <div class="model-scores">
+                                <div class="model-score-row"><span>Logistic Regression:</span> <strong id="score-lr-auc">0.00%</strong></div>
+                                <div class="model-score-row"><span>Gradient Boosting:</span> <strong id="score-gb-auc">0.00%</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-card performance-table-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-table-list"></i>
+                        <h3>Comprehensive Test Performance Summary</h3>
+                    </div>
+                    <table class="scoreboard-table">
+                        <thead>
+                            <tr>
+                                <th>Classification Metric</th>
+                                <th>Logistic Regression</th>
+                                <th>Gradient Boosting</th>
+                                <th>Advantage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Accuracy</strong> (Overall correctness)</td>
+                                <td id="tbl-lr-acc">--</td>
+                                <td id="tbl-gb-acc">--</td>
+                                <td id="adv-acc"><span class="badge gb-badge">Gradient Boosting (+0.5%)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Precision</strong> (Subscription when predicted yes)</td>
+                                <td id="tbl-lr-prec">--</td>
+                                <td id="tbl-gb-prec">--</td>
+                                <td id="adv-prec"><span class="badge gb-badge">Gradient Boosting</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Recall / Sensitivity</strong> (Subscribers detected)</td>
+                                <td id="tbl-lr-rec">--</td>
+                                <td id="tbl-gb-rec">--</td>
+                                <td id="adv-rec"><span class="badge lr-badge">Logistic Regression</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>F1-Score</strong> (Precision-Recall balance)</td>
+                                <td id="tbl-lr-f1">--</td>
+                                <td id="tbl-gb-f1">--</td>
+                                <td id="adv-f1"><span class="badge gb-badge">Gradient Boosting</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ROC-AUC Score</strong> (Sorting ranking quality)</td>
+                                <td id="tbl-lr-auc">--</td>
+                                <td id="tbl-gb-auc">--</td>
+                                <td id="adv-auc-row"><span class="badge gb-badge">Gradient Boosting</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card glass-card selection-recommendation-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <h3>Production Recommendation</h3>
+                    </div>
+                    <div class="recommendation-text">
+                        <p><strong>Ensemble Superiority:</strong> The Gradient Boosting model outperforms Logistic Regression across almost all standard offline indicators, notably establishing a stronger <strong>ROC-AUC Score</strong>. This means GBT is significantly more effective at ranking clients by subscription likelihood without needing high-precision threshold calibrations.</p>
+                        <p><strong>Business Application:</strong> If campaign budget is limited, use the <strong>Gradient Boosting</strong> model to target the top 10% highest-scoring clients. For wider targeting with lower risk of missing potential clients, <strong>Logistic Regression</strong> remains a highly robust secondary choice due to its slightly higher Recall.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 3: Visual Analytics -->
+            <section class="tab-content" id="tab-visuals">
+                <div class="visuals-container">
+                    <!-- Card 1: ROC Curve -->
+                    <div class="card glass-card visual-card">
+                        <div class="card-header">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <h3>Receiver Operating Characteristic (ROC) Comparison</h3>
+                        </div>
+                        <div class="visual-body">
+                            <img id="img-roc" src="assets/roc_curve.png" alt="ROC Curve Comparison" class="analytic-image">
+                            <p class="image-caption">The ROC curve maps Sensitivity (True Positive Rate) against 1-Specificity (False Positive Rate). A larger Area Under the Curve (AUC) indicates a more robust capability to distinguish prospective subscribers from non-subscribers.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Confusion Matrix -->
+                    <div class="card glass-card visual-card">
+                        <div class="card-header">
+                            <i class="fa-solid fa-circle-nodes"></i>
+                            <h3>Confusion Matrix Grid</h3>
+                        </div>
+                        <div class="visual-body">
+                            <img id="img-cm" src="assets/confusion_matrix.png" alt="Confusion Matrices" class="analytic-image">
+                            <p class="image-caption">Side-by-side matrices for Logistic Regression and Gradient Boosting. This shows exactly how many True Negatives (TN), False Positives (FP), False Negatives (FN), and True Positives (TP) each model produced on the independent test set.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Feature Importances -->
+                    <div class="card glass-card visual-card span-2">
+                        <div class="card-header">
+                            <i class="fa-solid fa-list-ol"></i>
+                            <h3>Top 10 Feature Importances & Coefficient Strengths</h3>
+                        </div>
+                        <div class="visual-body horizontal-body">
+                            <img id="img-fi" src="assets/feature_importance.png" alt="Feature Importances" class="analytic-image large-image">
+                            <p class="image-caption"><strong>Left:</strong> Logistic Regression coefficients (Teal represents features driving positive subscription; Coral drives negative subscription). <strong>Right:</strong> Gradient Boosting relative Gini importance (representing the features that split trees most cleanly). Key signals like Call Duration, Contact Method, and Prior Campaign Success dominate the predictive patterns.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: Project Info -->
+            <section class="tab-content" id="tab-info">
+                <div class="card glass-card text-rich-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <h3>Project Overview & Methodology</h3>
+                    </div>
+                    <div class="rich-text-content">
+                        <h4>Business Case & Problem Statement</h4>
+                        <p>Direct marketing campaigns (specifically telemarketing) represent a substantial resource expenditure for banking institutions. The goal of this project is to develop and analyze predictive machine learning classification pipelines to determine whether a client will subscribe to a bank term deposit (labeled <strong>yes/no</strong> in the variable <strong>y</strong>).</p>
+                        <p>By leveraging historical campaign records from the <strong>UCI Bank Marketing Dataset</strong> (45,211 instances, 17 variables), the Aegis pipeline separates high-likelihood candidates from uninterested leads, permitting optimization of marketing resources.</p>
+
+                        <h4>Dataset Features & Schema</h4>
+                        <ul>
+                            <li><strong>Demographics:</strong> Age, Job, Marital Status, Education Level.</li>
+                            <li><strong>Financial Status:</strong> Average Yearly Balance, Credit Default records, Housing debt, Personal Loans.</li>
+                            <li><strong>Current Campaign:</strong> Contact Communication Type (cellular/telephone), Call Day of Month, Call Month of Year, Call Duration (seconds).</li>
+                            <li><strong>Historical Campaign:</strong> Number of Contacts during campaign, Days elapsed since previous contact (pdays), Number of previous contacts, Previous campaign outcomes (success/failure).</li>
+                        </ul>
+
+                        <h4>Data Pipeline & Modeling Rules</h4>
+                        <p>To avoid label leakage and guarantee production robustness, the pipeline strictly adheres to the <strong>mle-workflow</strong> standards:</p>
+                        <ol>
+                            <li><strong>Data Split:</strong> The dataset is partitioned into 80% training and 20% test sets using a <strong>Stratified Split</strong>. This maintains exact positive-to-negative target proportions across folds and prevents training skew on imbalanced targets.</li>
+                            <li><strong>Preprocessing:</strong> Numerical values undergo standard scaling. Categorical attributes are encoded using one-hot encoding derived from fixed configuration parameters. This isolates preprocessing logic and eliminates vocabulary mismatch between Python and Javascript serving.</li>
+                            <li><strong>Model Tiers:</strong>
+                                <ul>
+                                    <li><strong>Logistic Regression:</strong> Fit with L2 regularization and standard coordinate descent. It yields highly interpretable coefficient odds ratios.</li>
+                                    <li><strong>Gradient Boosting:</strong> Configured as a decision tree ensemble. It captures complex non-linear correlations and categorical interactions without needing manual feature crossing.</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <h4>Client-Side Sigmoid Inference Engine</h4>
+                        <p>To support high-speed serving and eliminate server runtime costs, the trained model parameters (scale factors, coefficients, and decision tree splitting trees) are compiled into a compact JSON payload. The interactive client simulator on Tab 1 uses a custom in-browser JavaScript engine to evaluate these equations in real-time, matching Python prediction decimals exactly.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
