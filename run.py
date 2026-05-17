@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """
-Aegis Pipeline Orchestrator & Dashboard Host
-=============================================
-This script runs the entire ML campaign classification pipeline (Ingestion,
-Preprocessing, Model Training, Evaluation, Weights Serializations) and launches
-a local lightweight HTTP server hosting the glassmorphic analytics dashboard.
+Orchid B.Tech ML Pipeline Orchestrator & Dashboard Host
+======================================================
+This script runs the entire refactored 5-model campaign classification pipeline:
+1. Ingestion of the macroeconomic 'bank-additional-full.csv' dataset.
+2. Leakage prevention (strictly dropping 'duration').
+3. Partitioning (stratified 70/15/15 Train/Val/Test split).
+4. Balancing (stratified undersampling to 50/50 ratio on the training partition).
+5. Model Training (Logistic Regression, KNN, Naive Bayes, Random Forest, and Gradient Boosting).
+6. Benchmarking & Multi-Model ROC plotting.
+7. Serializing the model weights & preprocessing parameters for serverless client-side execution.
+8. Launching a local lightweight server hosting the interactive dashboard.
 
 Usage:
   python run.py                 # Run entire pipeline and host dashboard
@@ -33,29 +39,32 @@ PORT = 8080
 
 def run_pipeline():
     """Executes the full machine learning classification pipeline."""
-    print("\n" + "="*70)
-    print("        STARTING AEGIS BANK MARKETING CAMPAIGN PREDICTION PIPELINE")
-    print("="*70 + "\n")
+    print("\n" + "="*75)
+    print("      STARTING B.TECH ALIGNED BANK TERM DEPOSIT PREDICTION PIPELINE")
+    print("="*75 + "\n")
 
-    # 1. Download & Extract Dataset
+    # 1. Download & Extract Macroeconomic Dataset
     df = download_data()
 
-    # 2. Preprocess & Stratified Splitting
+    # 2. Preprocess & Stratified 70/15/15 Splitting + 50/50 Undersampling
     preprocessor = BankPreprocessor()
-    X_train, X_test, y_train, y_test = preprocessor.split_and_process(df)
+    X_train, X_val, X_test, y_train, y_val, y_test = preprocessor.split_and_process(df)
 
-    # 3. Train Classifiers (Logistic Regression + Gradient Boosting)
-    lr_model, gb_model = train_models(X_train, y_train)
+    # 3. Train all 5 classifiers (Logistic Regression, KNN, Naive Bayes, Random Forest, Gradient Boosting)
+    lr_model, knn_model, nb_model, rf_model, gb_model = train_models(X_train, y_train)
 
-    # 4. Evaluate Test Performance & Generate High-Res PNG Visuals
-    metrics = evaluate_and_plot(lr_model, gb_model, X_test, y_test, preprocessor.feature_names)
+    # 4. Evaluate Test Performance & Generate High-Res combined plots
+    metrics = evaluate_and_plot(
+        lr_model, knn_model, nb_model, rf_model, gb_model, 
+        X_test, y_test, preprocessor.feature_names
+    )
 
-    # 5. Export Preprocessing Scales & Model Weights to JSON
+    # 5. Export Preprocessing Scales & Model Weights to JSON for local dashboard inference
     export_to_json(preprocessor, lr_model, gb_model, metrics)
 
-    print("\n" + "="*70)
-    print("                  ML CAMPAIGN PIPELINE EXECUTED SUCCESSFULLY")
-    print("="*70 + "\n")
+    print("\n" + "="*75)
+    print("                B.TECH ML PIPELINE EXECUTED SUCCESSFULLY")
+    print("="*75 + "\n")
     return True
 
 def host_dashboard():
@@ -85,7 +94,7 @@ def host_dashboard():
         os.chdir(cwd)
 
 def main():
-    parser = argparse.ArgumentParser(description="Aegis ML Campaign Orchestrator")
+    parser = argparse.ArgumentParser(description="Orchid B.Tech ML Campaign Orchestrator")
     parser.add_argument(
         "--pipeline-only", 
         action="store_true", 

@@ -12,17 +12,19 @@ ASSETS_DIR = WEB_DIR / "assets"
 os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(ASSETS_DIR, exist_ok=True)
 
-# File paths
+# File paths for B.Tech alignment (bank-additional-full)
 DATASET_URL = "https://archive.ics.uci.edu/static/public/222/bank+marketing.zip"
 ZIP_PATH = DATA_DIR / "bank-marketing.zip"
 EXTRACTED_DIR = DATA_DIR / "extracted"
-BANK_ZIP_INNER = EXTRACTED_DIR / "bank.zip"
-BANK_FULL_CSV = DATA_DIR / "bank-full.csv"
+BANK_ADDITIONAL_ZIP_INNER = EXTRACTED_DIR / "bank-additional.zip"
+BANK_ADDITIONAL_CSV = DATA_DIR / "bank-additional-full.csv"
 MODEL_BUNDLE_PATH = ASSETS_DIR / "model_bundle.json"
 
 # ML Pipeline Configuration
 RANDOM_STATE = 42
-TEST_SIZE = 0.2
+TRAIN_SIZE = 0.70
+VAL_SIZE = 0.15
+TEST_SIZE = 0.15
 CV_SPLITS = 5
 
 # Logistic Regression Hyperparameters
@@ -33,28 +35,60 @@ LOG_REG_PARAMS = {
     "solver": "lbfgs"
 }
 
-# Gradient Boosting Hyperparameters
-GRAD_BOOST_PARAMS = {
+# K-Nearest Neighbors Hyperparameters
+KNN_PARAMS = {
+    "n_neighbors": 5,
+    "weights": "uniform",
+    "metric": "minkowski",
+    "p": 2,
+    "n_jobs": -1
+}
+
+# Naive Bayes Hyperparameters (GaussianNB uses standard defaults)
+NAIVE_BAYES_PARAMS = {}
+
+# Random Forest Hyperparameters
+RANDOM_FOREST_PARAMS = {
     "n_estimators": 100,
+    "max_depth": 10,
+    "min_samples_split": 5,
+    "random_state": RANDOM_STATE,
+    "n_jobs": -1
+}
+
+# Gradient Boosting Hyperparameters (Tuned Champion)
+GRAD_BOOST_PARAMS = {
+    "n_estimators": 150,
     "learning_rate": 0.1,
-    "max_depth": 4,
+    "max_depth": 3,
     "random_state": RANDOM_STATE
 }
 
-# Feature definitions for UCI Bank Marketing Dataset
-# Categorical columns and their expected categories (in alphabetical order for consistency)
+# Feature definitions for UCI Bank Marketing Dataset (bank-additional-full)
 CATEGORICAL_FEATURES = {
     "job": ["admin.", "blue-collar", "entrepreneur", "housemaid", "management", "retired", "self-employed", "services", "student", "technician", "unemployed", "unknown"],
-    "marital": ["divorced", "married", "single"],
-    "education": ["primary", "secondary", "tertiary", "unknown"],
-    "default": ["no", "yes"],
-    "housing": ["no", "yes"],
-    "loan": ["no", "yes"],
-    "contact": ["cellular", "telephone", "unknown"],
-    "month": ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
-    "poutcome": ["failure", "other", "success", "unknown"]
+    "marital": ["divorced", "married", "single", "unknown"],
+    "education": ["basic.4y", "basic.6y", "basic.9y", "high.school", "illiterate", "professional.course", "university.degree", "unknown"],
+    "default": ["no", "yes", "unknown"],
+    "housing": ["no", "yes", "unknown"],
+    "loan": ["no", "yes", "unknown"],
+    "contact": ["cellular", "telephone"],
+    "month": ["mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], # Actual 10 months in dataset
+    "day_of_week": ["mon", "tue", "wed", "thu", "fri"],
+    "poutcome": ["failure", "nonexistent", "success"]
 }
 
-NUMERICAL_FEATURES = ["age", "balance", "day", "duration", "campaign", "pdays", "previous"]
+# Macroeconomic indicators and demography numeric features
+NUMERICAL_FEATURES = [
+    "age",
+    "campaign",
+    "pdays",
+    "previous",
+    "emp.var.rate",
+    "cons.price.idx",
+    "cons.conf.idx",
+    "euribor3m",
+    "nr.employed"
+]
 
-TARGET_COLUMN = "y"  # "yes" or "no"
+TARGET_COLUMN = "y"  # Target variable "yes" or "no"

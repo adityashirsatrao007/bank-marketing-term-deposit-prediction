@@ -96,12 +96,13 @@ function populateDropdowns() {
             });
 
             // Set sensible default selected values matching standard distributions
-            if (col === "job") select.value = "management";
+            if (col === "job") select.value = "admin.";
             if (col === "marital") select.value = "married";
-            if (col === "education") select.value = "secondary";
+            if (col === "education") select.value = "university.degree";
             if (col === "contact") select.value = "cellular";
             if (col === "month") select.value = "may";
-            if (col === "poutcome") select.value = "unknown";
+            if (col === "day_of_week") select.value = "mon";
+            if (col === "poutcome") select.value = "nonexistent";
         }
     }
 }
@@ -113,68 +114,100 @@ function populateScoreboard() {
     const metrics = modelBundle.metrics;
 
     // Helper to format values as percentages
-    const fmtPct = (val) => (val * 100).toFixed(2) + "%";
+    const fmtPct = (val) => val !== undefined ? (val * 100).toFixed(2) + "%" : "--";
 
     // 1. Accuracy cards
-    document.getElementById("score-lr-accuracy").textContent = fmtPct(metrics["Logistic Regression"]["Accuracy"]);
-    document.getElementById("score-gb-accuracy").textContent = fmtPct(metrics["Gradient Boosting"]["Accuracy"]);
+    if (document.getElementById("score-lr-accuracy")) document.getElementById("score-lr-accuracy").textContent = fmtPct(metrics["Logistic Regression"]["Accuracy"]);
+    if (document.getElementById("score-knn-accuracy")) document.getElementById("score-knn-accuracy").textContent = fmtPct(metrics["K-Nearest Neighbors"]["Accuracy"]);
+    if (document.getElementById("score-nb-accuracy")) document.getElementById("score-nb-accuracy").textContent = fmtPct(metrics["Naive Bayes"]["Accuracy"]);
+    if (document.getElementById("score-rf-accuracy")) document.getElementById("score-rf-accuracy").textContent = fmtPct(metrics["Random Forest"]["Accuracy"]);
+    if (document.getElementById("score-gb-accuracy")) document.getElementById("score-gb-accuracy").textContent = fmtPct(metrics["Gradient Boosting"]["Accuracy"]);
 
     // 2. F1 Score cards
-    document.getElementById("score-lr-f1").textContent = fmtPct(metrics["Logistic Regression"]["F1-Score"]);
-    document.getElementById("score-gb-f1").textContent = fmtPct(metrics["Gradient Boosting"]["F1-Score"]);
+    if (document.getElementById("score-lr-f1")) document.getElementById("score-lr-f1").textContent = fmtPct(metrics["Logistic Regression"]["F1-Score"]);
+    if (document.getElementById("score-knn-f1")) document.getElementById("score-knn-f1").textContent = fmtPct(metrics["K-Nearest Neighbors"]["F1-Score"]);
+    if (document.getElementById("score-nb-f1")) document.getElementById("score-nb-f1").textContent = fmtPct(metrics["Naive Bayes"]["F1-Score"]);
+    if (document.getElementById("score-rf-f1")) document.getElementById("score-rf-f1").textContent = fmtPct(metrics["Random Forest"]["F1-Score"]);
+    if (document.getElementById("score-gb-f1")) document.getElementById("score-gb-f1").textContent = fmtPct(metrics["Gradient Boosting"]["F1-Score"]);
 
     // 3. ROC-AUC cards
-    document.getElementById("score-lr-auc").textContent = fmtPct(metrics["Logistic Regression"]["ROC-AUC"]);
-    document.getElementById("score-gb-auc").textContent = fmtPct(metrics["Gradient Boosting"]["ROC-AUC"]);
+    if (document.getElementById("score-lr-auc")) document.getElementById("score-lr-auc").textContent = fmtPct(metrics["Logistic Regression"]["ROC-AUC"]);
+    if (document.getElementById("score-knn-auc")) document.getElementById("score-knn-auc").textContent = fmtPct(metrics["K-Nearest Neighbors"]["ROC-AUC"]);
+    if (document.getElementById("score-nb-auc")) document.getElementById("score-nb-auc").textContent = fmtPct(metrics["Naive Bayes"]["ROC-AUC"]);
+    if (document.getElementById("score-rf-auc")) document.getElementById("score-rf-auc").textContent = fmtPct(metrics["Random Forest"]["ROC-AUC"]);
+    if (document.getElementById("score-gb-auc")) document.getElementById("score-gb-auc").textContent = fmtPct(metrics["Gradient Boosting"]["ROC-AUC"]);
 
     // 4. Performance Summary Table cells
-    document.getElementById("tbl-lr-acc").textContent = fmtPct(metrics["Logistic Regression"]["Accuracy"]);
-    document.getElementById("tbl-gb-acc").textContent = fmtPct(metrics["Gradient Boosting"]["Accuracy"]);
-    
-    document.getElementById("tbl-lr-prec").textContent = fmtPct(metrics["Logistic Regression"]["Precision"]);
-    document.getElementById("tbl-gb-prec").textContent = fmtPct(metrics["Gradient Boosting"]["Precision"]);
+    const models = {
+        "lr": "Logistic Regression",
+        "knn": "K-Nearest Neighbors",
+        "nb": "Naive Bayes",
+        "rf": "Random Forest",
+        "gb": "Gradient Boosting"
+    };
 
-    document.getElementById("tbl-lr-rec").textContent = fmtPct(metrics["Logistic Regression"]["Recall"]);
-    document.getElementById("tbl-gb-rec").textContent = fmtPct(metrics["Gradient Boosting"]["Recall"]);
-
-    document.getElementById("tbl-lr-f1").textContent = fmtPct(metrics["Logistic Regression"]["F1-Score"]);
-    document.getElementById("tbl-gb-f1").textContent = fmtPct(metrics["Gradient Boosting"]["F1-Score"]);
-
-    document.getElementById("tbl-lr-auc").textContent = fmtPct(metrics["Logistic Regression"]["ROC-AUC"]);
-    document.getElementById("tbl-gb-auc").textContent = fmtPct(metrics["Gradient Boosting"]["ROC-AUC"]);
+    for (const [code, name] of Object.entries(models)) {
+        if (metrics[name]) {
+            if (document.getElementById(`tbl-${code}-acc`)) document.getElementById(`tbl-${code}-acc`).textContent = fmtPct(metrics[name]["Accuracy"]);
+            if (document.getElementById(`tbl-${code}-prec`)) document.getElementById(`tbl-${code}-prec`).textContent = fmtPct(metrics[name]["Precision"]);
+            if (document.getElementById(`tbl-${code}-rec`)) document.getElementById(`tbl-${code}-rec`).textContent = fmtPct(metrics[name]["Recall"]);
+            if (document.getElementById(`tbl-${code}-f1`)) document.getElementById(`tbl-${code}-f1`).textContent = fmtPct(metrics[name]["F1-Score"]);
+            if (document.getElementById(`tbl-${code}-auc`)) document.getElementById(`tbl-${code}-auc`).textContent = fmtPct(metrics[name]["ROC-AUC"]);
+        }
+    }
 
     // 5. Highlights/Advantage column calculations
     calculateScoreboardAdvantages(metrics);
 }
 
 function calculateScoreboardAdvantages(metrics) {
-    const diff = (metrics["Gradient Boosting"]["Accuracy"] - metrics["Logistic Regression"]["Accuracy"]) * 100;
-    const gbAdv = diff > 0;
-    const absDiff = Math.abs(diff).toFixed(1);
+    const models = ["Logistic Regression", "K-Nearest Neighbors", "Naive Bayes", "Random Forest", "Gradient Boosting"];
+    
+    const badgeClasses = {
+        "Logistic Regression": "lr-badge",
+        "K-Nearest Neighbors": "knn-badge",
+        "Naive Bayes": "nb-badge",
+        "Random Forest": "rf-badge",
+        "Gradient Boosting": "gb-badge"
+    };
 
-    document.getElementById("adv-acc").innerHTML = gbAdv 
-        ? `<span class="badge gb-badge">Gradient Boosting (+${absDiff}%)</span>` 
-        : `<span class="badge lr-badge">Logistic Regression (+${absDiff}%)</span>`;
+    // Find best for a given metric
+    const getBestModel = (metricKey) => {
+        let bestModel = models[0];
+        let maxVal = -1;
+        for (const model of models) {
+            if (metrics[model] && metrics[model][metricKey] > maxVal) {
+                maxVal = metrics[model][metricKey];
+                bestModel = model;
+            }
+        }
+        return bestModel;
+    };
 
-    const precDiff = metrics["Gradient Boosting"]["Precision"] - metrics["Logistic Regression"]["Precision"];
-    document.getElementById("adv-prec").innerHTML = precDiff > 0 
-        ? `<span class="badge gb-badge">Gradient Boosting</span>` 
-        : `<span class="badge lr-badge">Logistic Regression</span>`;
+    const bestAcc = getBestModel("Accuracy");
+    if (document.getElementById("best-acc")) {
+        document.getElementById("best-acc").innerHTML = `<span class="badge ${badgeClasses[bestAcc]}">${bestAcc}</span>`;
+    }
 
-    const recDiff = metrics["Gradient Boosting"]["Recall"] - metrics["Logistic Regression"]["Recall"];
-    document.getElementById("adv-rec").innerHTML = recDiff > 0 
-        ? `<span class="badge gb-badge">Gradient Boosting</span>` 
-        : `<span class="badge lr-badge">Logistic Regression</span>`;
+    const bestPrec = getBestModel("Precision");
+    if (document.getElementById("best-prec")) {
+        document.getElementById("best-prec").innerHTML = `<span class="badge ${badgeClasses[bestPrec]}">${bestPrec}</span>`;
+    }
 
-    const f1Diff = metrics["Gradient Boosting"]["F1-Score"] - metrics["Logistic Regression"]["F1-Score"];
-    document.getElementById("adv-f1").innerHTML = f1Diff > 0 
-        ? `<span class="badge gb-badge">Gradient Boosting</span>` 
-        : `<span class="badge lr-badge">Logistic Regression</span>`;
+    const bestRec = getBestModel("Recall");
+    if (document.getElementById("best-rec")) {
+        document.getElementById("best-rec").innerHTML = `<span class="badge ${badgeClasses[bestRec]}">${bestRec}</span>`;
+    }
 
-    const aucDiff = metrics["Gradient Boosting"]["ROC-AUC"] - metrics["Logistic Regression"]["ROC-AUC"];
-    document.getElementById("adv-auc-row").innerHTML = aucDiff > 0 
-        ? `<span class="badge gb-badge">Gradient Boosting</span>` 
-        : `<span class="badge lr-badge">Logistic Regression</span>`;
+    const bestF1 = getBestModel("F1-Score");
+    if (document.getElementById("best-f1")) {
+        document.getElementById("best-f1").innerHTML = `<span class="badge ${badgeClasses[bestF1]}">${bestF1}</span>`;
+    }
+
+    const bestAuc = getBestModel("ROC-AUC");
+    if (document.getElementById("best-auc-row")) {
+        document.getElementById("best-auc-row").innerHTML = `<span class="badge ${badgeClasses[bestAuc]}">${bestAuc}</span>`;
+    }
 }
 
 // Bind sliders and form handlers
@@ -185,10 +218,13 @@ function registerSimulatorListeners() {
     // Listeners for slider real-time numeric value displays
     const bindings = [
         { sliderId: "input-age", displayId: "age-val", suffix: "" },
-        { sliderId: "input-duration", displayId: "duration-val", suffix: "s" },
         { sliderId: "input-campaign", displayId: "campaign-val", suffix: "" },
         { sliderId: "input-previous", displayId: "previous-val", suffix: "" },
-        { sliderId: "input-day", displayId: "day-val", suffix: "" }
+        { sliderId: "input-euribor3m", displayId: "euribor3m-val", suffix: "%" },
+        { sliderId: "input-emp_var_rate", displayId: "emp_var_rate-val", suffix: "" },
+        { sliderId: "input-cons_price_idx", displayId: "cons_price_idx-val", suffix: "" },
+        { sliderId: "input-cons_conf_idx", displayId: "cons_conf_idx-val", suffix: "" },
+        { sliderId: "input-nr_employed", displayId: "nr_employed-val", suffix: "" }
     ];
 
     bindings.forEach(bind => {
@@ -203,7 +239,7 @@ function registerSimulatorListeners() {
     });
 
     // Listen to changes on other form controls
-    const numInputs = ["input-balance", "input-pdays"];
+    const numInputs = ["input-pdays"];
     numInputs.forEach(id => {
         const inp = document.getElementById(id);
         if (inp) {
@@ -211,7 +247,7 @@ function registerSimulatorListeners() {
         }
     });
 
-    const selects = ["input-job", "input-marital", "input-education", "input-contact", "input-month", "input-poutcome"];
+    const selects = ["input-job", "input-marital", "input-education", "input-contact", "input-month", "input-day_of_week", "input-poutcome"];
     selects.forEach(id => {
         const sel = document.getElementById(id);
         if (sel) {
@@ -234,12 +270,14 @@ function calculatePredictions() {
 
     // Numerical attributes
     rawInputs["age"] = parseFloat(document.getElementById("input-age").value) || 35;
-    rawInputs["balance"] = parseFloat(document.getElementById("input-balance").value) || 0;
-    rawInputs["duration"] = parseFloat(document.getElementById("input-duration").value) || 0;
     rawInputs["campaign"] = parseFloat(document.getElementById("input-campaign").value) || 1;
-    rawInputs["pdays"] = parseFloat(document.getElementById("input-pdays").value) || -1;
+    rawInputs["pdays"] = parseFloat(document.getElementById("input-pdays").value) || 999;
     rawInputs["previous"] = parseFloat(document.getElementById("input-previous").value) || 0;
-    rawInputs["day"] = parseFloat(document.getElementById("input-day").value) || 15;
+    rawInputs["euribor3m"] = parseFloat(document.getElementById("input-euribor3m").value) || 4.86;
+    rawInputs["emp.var.rate"] = parseFloat(document.getElementById("input-emp_var_rate").value) || 1.1;
+    rawInputs["cons.price.idx"] = parseFloat(document.getElementById("input-cons_price_idx").value) || 93.99;
+    rawInputs["cons.conf.idx"] = parseFloat(document.getElementById("input-cons_conf_idx").value) || -36.4;
+    rawInputs["nr.employed"] = parseFloat(document.getElementById("input-nr_employed").value) || 5191;
 
     // Categorical select fields
     rawInputs["job"] = document.getElementById("input-job").value;
@@ -247,6 +285,7 @@ function calculatePredictions() {
     rawInputs["education"] = document.getElementById("input-education").value;
     rawInputs["contact"] = document.getElementById("input-contact").value;
     rawInputs["month"] = document.getElementById("input-month").value;
+    rawInputs["day_of_week"] = document.getElementById("input-day_of_week").value;
     rawInputs["poutcome"] = document.getElementById("input-poutcome").value;
 
     // Binary radio groups
@@ -369,58 +408,53 @@ function updateConclusion(elId, prob) {
 
 // Dynamically compute key indicators on live simulator updates
 function updateLiveRiskAssessments(inputs) {
-    // 1. Call Duration Assessment
-    const duration = inputs.duration;
-    let durStatusText = "Low Impact";
-    let durStatusClass = "negative";
-    let durPercent = 20;
-    let durColor = "var(--coral)";
+    // 1. Euribor 3M Rate Assessment
+    const euribor = inputs["euribor3m"];
+    let eurStatusText = "Moderate Rate";
+    let eurStatusClass = "neuter";
+    let eurPercent = 60;
+    let eurColor = "var(--primary)";
 
-    if (duration > 500) {
-        durStatusText = "Extremely High (Optimal)";
-        durStatusClass = "positive";
-        durPercent = 95;
-        durColor = "var(--secondary)";
-    } else if (duration > 200) {
-        durStatusText = "Moderate Engagement";
-        durStatusClass = "neuter";
-        durPercent = 60;
-        durColor = "var(--primary)";
+    if (euribor > 4.5) {
+        eurStatusText = "High Rate (Restrictive)";
+        eurStatusClass = "negative";
+        eurPercent = 30;
+        eurColor = "var(--coral)";
+    } else if (euribor < 2.0) {
+        eurStatusText = "Low Rate (Expansionary)";
+        eurStatusClass = "positive";
+        eurPercent = 90;
+        eurColor = "var(--secondary)";
     }
 
-    updateRiskFactor("bar-duration", "status-duration", durStatusText, durStatusClass, durPercent, durColor);
+    updateRiskFactor("bar-euribor", "status-euribor", eurStatusText, eurStatusClass, eurPercent, eurColor);
 
-    // 2. Financial Balance Level Assessment
-    const balance = inputs.balance;
-    let balStatusText = "Low Reserves";
-    let balStatusClass = "negative";
-    let balPercent = 30;
-    let balColor = "var(--coral)";
+    // 2. Consumer Confidence Index Assessment
+    const confidence = inputs["cons.conf.idx"];
+    let confStatusText = "Stable Sentiment";
+    let confStatusClass = "neuter";
+    let confPercent = 65;
+    let confColor = "var(--primary)";
 
-    if (balance > 4000) {
-        balStatusText = "High Assets (A-Tier)";
-        balStatusClass = "positive";
-        balPercent = 90;
-        balColor = "var(--secondary)";
-    } else if (balance >= 1000) {
-        balStatusText = "Stable Balance";
-        balStatusClass = "neuter";
-        balPercent = 65;
-        balColor = "var(--primary)";
-    } else if (balance >= 0) {
-        balStatusText = "Low Reserves";
-        balStatusClass = "neuter";
-        balPercent = 45;
-        balColor = "var(--primary)";
+    if (confidence < -45.0) {
+        confStatusText = "Pessimistic Sentiment";
+        confStatusClass = "negative";
+        confPercent = 30;
+        confColor = "var(--coral)";
+    } else if (confidence > -35.0) {
+        confStatusText = "Optimistic Sentiment";
+        confStatusClass = "positive";
+        confPercent = 90;
+        confColor = "var(--secondary)";
     }
 
-    updateRiskFactor("bar-balance", "status-balance", balStatusText, balStatusClass, balPercent, balColor);
+    updateRiskFactor("bar-confidence", "status-confidence", confStatusText, confStatusClass, confPercent, confColor);
 
     // 3. Housing Debt Assessment
     const housing = inputs.housing;
-    let houseStatusText = "Debt Burden";
+    let houseStatusText = "Active Housing Loan";
     let houseStatusClass = "negative";
-    let housePercent = 40;
+    let housePercent = 45;
     let houseColor = "var(--coral)";
 
     if (housing === "no") {
@@ -428,6 +462,11 @@ function updateLiveRiskAssessments(inputs) {
         houseStatusClass = "positive";
         housePercent = 95;
         houseColor = "var(--secondary)";
+    } else if (housing === "unknown") {
+        houseStatusText = "Unknown Debt Status";
+        houseStatusClass = "neuter";
+        housePercent = 60;
+        houseColor = "var(--primary)";
     }
 
     updateRiskFactor("bar-housing", "status-housing", houseStatusText, houseStatusClass, housePercent, houseColor);

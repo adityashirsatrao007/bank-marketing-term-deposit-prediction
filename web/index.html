@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Marketing Campaign Predictor</title>
+    <title>Predictive Modeling of Bank Term Deposit Subscriptions</title>
     <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +19,8 @@
             <div class="logo-area">
                 <div class="logo-icon"><i class="fa-solid fa-building-columns"></i></div>
                 <div class="logo-text">
-                    <h1>Aegis Predict</h1>
-                    <span>Bank Marketing Analytics</span>
+                    <h1>Propensity Pro</h1>
+                    <span>Deposit Prediction Engine</span>
                 </div>
             </div>
             <nav class="nav-menu">
@@ -42,7 +42,7 @@
             <!-- Header Area -->
             <header class="content-header">
                 <div class="header-title-area">
-                    <span class="breadcrumb">UCI BANK MARKETING DATASET</span>
+                    <span class="breadcrumb">PREDICTIVE MODELING OF BANK TERM DEPOSIT SUBSCRIPTIONS</span>
                     <h2 id="page-title">Client Subscription Simulator</h2>
                 </div>
                 <div class="header-controls">
@@ -59,7 +59,7 @@
                     <div class="card glass-card form-card">
                         <div class="card-header">
                             <i class="fa-solid fa-id-card"></i>
-                            <h3>Client Attributes</h3>
+                            <h3>Simulator Parameters (19 Features)</h3>
                         </div>
                         <form id="simulator-form" autocomplete="off">
                             <div class="form-grid">
@@ -70,30 +70,17 @@
                                     <span class="range-bounds"><span>18</span><span>95</span></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="input-balance">Yearly Average Balance (EUR)</label>
-                                    <div class="input-wrapper">
-                                        <i class="fa-solid fa-euro-sign input-icon"></i>
-                                        <input type="number" id="input-balance" value="1500" placeholder="e.g. 1500">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="input-duration">Call Duration (Seconds) <span class="val-display" id="duration-val">250s</span></label>
-                                    <input type="range" id="input-duration" min="0" max="1500" value="250" class="slider">
-                                    <span class="range-bounds"><span>0</span><span>1500</span></span>
-                                    <div class="info-tip"><i class="fa-solid fa-circle-exclamation"></i> Tip: Highly predictive, but only known after a call.</div>
-                                </div>
-                                <div class="form-group">
                                     <label for="input-campaign">Campaign Contacts <span class="val-display" id="campaign-val">1</span></label>
                                     <input type="range" id="input-campaign" min="1" max="20" value="1" class="slider">
                                     <span class="range-bounds"><span>1</span><span>20</span></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="input-pdays">Days Since Last Campaign</label>
+                                    <label for="input-pdays">Days Since Last Contact (pdays)</label>
                                     <div class="input-wrapper">
                                         <i class="fa-solid fa-calendar-days input-icon"></i>
-                                        <input type="number" id="input-pdays" value="-1" placeholder="e.g. -1 for never">
+                                        <input type="number" id="input-pdays" value="999" placeholder="e.g. 999">
                                     </div>
-                                    <div class="info-tip">Use -1 if client was never contacted before.</div>
+                                    <div class="info-tip">Use 999 if client was never contacted before.</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-previous">Previous Contacts <span class="val-display" id="previous-val">0</span></label>
@@ -101,9 +88,29 @@
                                     <span class="range-bounds"><span>0</span><span>15</span></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="input-day">Day of Month <span class="val-display" id="day-val">15</span></label>
-                                    <input type="range" id="input-day" min="1" max="31" value="15" class="slider">
-                                    <span class="range-bounds"><span>1</span><span>31</span></span>
+                                    <label for="input-euribor3m">Euribor 3-Month Rate <span class="val-display" id="euribor3m-val">4.86%</span></label>
+                                    <input type="range" id="input-euribor3m" min="0.5" max="5.5" step="0.01" value="4.86" class="slider">
+                                    <span class="range-bounds"><span>0.5%</span><span>5.5%</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-emp_var_rate">Employment Variation Rate <span class="val-display" id="emp_var_rate-val">1.1</span></label>
+                                    <input type="range" id="input-emp_var_rate" min="-3.5" max="1.5" step="0.1" value="1.1" class="slider">
+                                    <span class="range-bounds"><span>-3.5</span><span>1.5</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-cons_price_idx">Consumer Price Index <span class="val-display" id="cons_price_idx-val">93.99</span></label>
+                                    <input type="range" id="input-cons_price_idx" min="92.0" max="95.0" step="0.001" value="93.99" class="slider">
+                                    <span class="range-bounds"><span>92.0</span><span>95.0</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-cons_conf_idx">Consumer Confidence Index <span class="val-display" id="cons_conf_idx-val">-36.4</span></label>
+                                    <input type="range" id="input-cons_conf_idx" min="-55.0" max="-20.0" step="0.1" value="-36.4" class="slider">
+                                    <span class="range-bounds"><span>-55.0</span><span>-20.0</span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-nr_employed">Number of Employees <span class="val-display" id="nr_employed-val">5191</span></label>
+                                    <input type="range" id="input-nr_employed" min="4900" max="5300" step="1" value="5191" class="slider">
+                                    <span class="range-bounds"><span>4900</span><span>5300</span></span>
                                 </div>
 
                                 <!-- Categorical Fields -->
@@ -126,6 +133,10 @@
                                 <div class="form-group">
                                     <label for="input-month">Last Contact Month</label>
                                     <select id="input-month"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-day_of_week">Day of Week</label>
+                                    <select id="input-day_of_week"></select>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-poutcome">Outcome of Prev Campaign</label>
@@ -225,19 +236,19 @@
                                 <h3>Key Risk Assessment</h3>
                             </div>
                             <div class="risk-factors">
-                                <div class="factor-item" id="factor-duration">
+                                <div class="factor-item" id="factor-euribor">
                                     <div class="factor-header">
-                                        <span class="factor-title">Call Duration Impact</span>
-                                        <span class="factor-status neuter" id="status-duration">Moderate</span>
+                                        <span class="factor-title">Euribor Interest Rate</span>
+                                        <span class="factor-status neuter" id="status-euribor">Moderate</span>
                                     </div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-duration"></div></div>
+                                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-euribor"></div></div>
                                 </div>
-                                <div class="factor-item" id="factor-balance">
+                                <div class="factor-item" id="factor-confidence">
                                     <div class="factor-header">
-                                        <span class="factor-title">Financial Balance Level</span>
-                                        <span class="factor-status" id="status-balance">Stable</span>
+                                        <span class="factor-title">Consumer Confidence</span>
+                                        <span class="factor-status" id="status-confidence">Stable</span>
                                     </div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-balance"></div></div>
+                                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-confidence"></div></div>
                                 </div>
                                 <div class="factor-item" id="factor-housing">
                                     <div class="factor-header">
@@ -262,6 +273,9 @@
                             <span class="metric-title">Accuracy Score</span>
                             <div class="model-scores">
                                 <div class="model-score-row"><span>Logistic Regression:</span> <strong id="score-lr-accuracy">0.00%</strong></div>
+                                <div class="model-score-row"><span>K-Nearest Neighbors:</span> <strong id="score-knn-accuracy">0.00%</strong></div>
+                                <div class="model-score-row"><span>Naive Bayes:</span> <strong id="score-nb-accuracy">0.00%</strong></div>
+                                <div class="model-score-row"><span>Random Forest:</span> <strong id="score-rf-accuracy">0.00%</strong></div>
                                 <div class="model-score-row"><span>Gradient Boosting:</span> <strong id="score-gb-accuracy">0.00%</strong></div>
                             </div>
                         </div>
@@ -273,6 +287,9 @@
                             <span class="metric-title">F1-Score (Harmonic Mean)</span>
                             <div class="model-scores">
                                 <div class="model-score-row"><span>Logistic Regression:</span> <strong id="score-lr-f1">0.00%</strong></div>
+                                <div class="model-score-row"><span>K-Nearest Neighbors:</span> <strong id="score-knn-f1">0.00%</strong></div>
+                                <div class="model-score-row"><span>Naive Bayes:</span> <strong id="score-nb-f1">0.00%</strong></div>
+                                <div class="model-score-row"><span>Random Forest:</span> <strong id="score-rf-f1">0.00%</strong></div>
                                 <div class="model-score-row"><span>Gradient Boosting:</span> <strong id="score-gb-f1">0.00%</strong></div>
                             </div>
                         </div>
@@ -284,6 +301,9 @@
                             <span class="metric-title">ROC-AUC (Discriminator)</span>
                             <div class="model-scores">
                                 <div class="model-score-row"><span>Logistic Regression:</span> <strong id="score-lr-auc">0.00%</strong></div>
+                                <div class="model-score-row"><span>K-Nearest Neighbors:</span> <strong id="score-knn-auc">0.00%</strong></div>
+                                <div class="model-score-row"><span>Naive Bayes:</span> <strong id="score-nb-auc">0.00%</strong></div>
+                                <div class="model-score-row"><span>Random Forest:</span> <strong id="score-rf-auc">0.00%</strong></div>
                                 <div class="model-score-row"><span>Gradient Boosting:</span> <strong id="score-gb-auc">0.00%</strong></div>
                             </div>
                         </div>
@@ -300,40 +320,58 @@
                             <tr>
                                 <th>Classification Metric</th>
                                 <th>Logistic Regression</th>
+                                <th>K-Nearest Neighbors</th>
+                                <th>Naive Bayes</th>
+                                <th>Random Forest</th>
                                 <th>Gradient Boosting</th>
-                                <th>Advantage</th>
+                                <th>Best Performer</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>Accuracy</strong> (Overall correctness)</td>
                                 <td id="tbl-lr-acc">--</td>
+                                <td id="tbl-knn-acc">--</td>
+                                <td id="tbl-nb-acc">--</td>
+                                <td id="tbl-rf-acc">--</td>
                                 <td id="tbl-gb-acc">--</td>
-                                <td id="adv-acc"><span class="badge gb-badge">Gradient Boosting (+0.5%)</span></td>
+                                <td id="best-acc">--</td>
                             </tr>
                             <tr>
                                 <td><strong>Precision</strong> (Subscription when predicted yes)</td>
                                 <td id="tbl-lr-prec">--</td>
+                                <td id="tbl-knn-prec">--</td>
+                                <td id="tbl-nb-prec">--</td>
+                                <td id="tbl-rf-prec">--</td>
                                 <td id="tbl-gb-prec">--</td>
-                                <td id="adv-prec"><span class="badge gb-badge">Gradient Boosting</span></td>
+                                <td id="best-prec">--</td>
                             </tr>
                             <tr>
                                 <td><strong>Recall / Sensitivity</strong> (Subscribers detected)</td>
                                 <td id="tbl-lr-rec">--</td>
+                                <td id="tbl-knn-rec">--</td>
+                                <td id="tbl-nb-rec">--</td>
+                                <td id="tbl-rf-rec">--</td>
                                 <td id="tbl-gb-rec">--</td>
-                                <td id="adv-rec"><span class="badge lr-badge">Logistic Regression</span></td>
+                                <td id="best-rec">--</td>
                             </tr>
                             <tr>
                                 <td><strong>F1-Score</strong> (Precision-Recall balance)</td>
                                 <td id="tbl-lr-f1">--</td>
+                                <td id="tbl-knn-f1">--</td>
+                                <td id="tbl-nb-f1">--</td>
+                                <td id="tbl-rf-f1">--</td>
                                 <td id="tbl-gb-f1">--</td>
-                                <td id="adv-f1"><span class="badge gb-badge">Gradient Boosting</span></td>
+                                <td id="best-f1">--</td>
                             </tr>
                             <tr>
                                 <td><strong>ROC-AUC Score</strong> (Sorting ranking quality)</td>
                                 <td id="tbl-lr-auc">--</td>
+                                <td id="tbl-knn-auc">--</td>
+                                <td id="tbl-nb-auc">--</td>
+                                <td id="tbl-rf-auc">--</td>
                                 <td id="tbl-gb-auc">--</td>
-                                <td id="adv-auc-row"><span class="badge gb-badge">Gradient Boosting</span></td>
+                                <td id="best-auc-row">--</td>
                             </tr>
                         </tbody>
                     </table>
@@ -386,7 +424,7 @@
                         </div>
                         <div class="visual-body horizontal-body">
                             <img id="img-fi" src="assets/feature_importance.png" alt="Feature Importances" class="analytic-image large-image">
-                            <p class="image-caption"><strong>Left:</strong> Logistic Regression coefficients (Teal represents features driving positive subscription; Coral drives negative subscription). <strong>Right:</strong> Gradient Boosting relative Gini importance (representing the features that split trees most cleanly). Key signals like Call Duration, Contact Method, and Prior Campaign Success dominate the predictive patterns.</p>
+                            <p class="image-caption"><strong>Left:</strong> Logistic Regression coefficients (Teal represents features driving positive subscription; Coral drives negative subscription). <strong>Right:</strong> Gradient Boosting relative Gini importance (representing the features that split trees most cleanly). Key macroeconomic signals like Euribor 3-Month Interest Rate, Number of Employees, and prior campaign outcome success dominate the predictive patterns.</p>
                         </div>
                     </div>
                 </div>
@@ -401,32 +439,37 @@
                     </div>
                     <div class="rich-text-content">
                         <h4>Business Case & Problem Statement</h4>
-                        <p>Direct marketing campaigns (specifically telemarketing) represent a substantial resource expenditure for banking institutions. The goal of this project is to develop and analyze predictive machine learning classification pipelines to determine whether a client will subscribe to a bank term deposit (labeled <strong>yes/no</strong> in the variable <strong>y</strong>).</p>
-                        <p>By leveraging historical campaign records from the <strong>UCI Bank Marketing Dataset</strong> (45,211 instances, 17 variables), the Aegis pipeline separates high-likelihood candidates from uninterested leads, permitting optimization of marketing resources.</p>
+                        <p>Direct marketing campaigns (specifically telemarketing) represent a substantial resource expenditure for banking institutions. The goal of this project is to develop and analyze predictive machine learning propensity scoring engines to determine whether a client will subscribe to a bank term deposit (labeled <strong>yes/no</strong> in the variable <strong>y</strong>).</p>
+                        <p>By leveraging historical campaign records from the <strong>UCI Bank Marketing Dataset (bank-additional-full.csv)</strong> (41,188 instances, 21 variables), the Aegis pipeline separates high-likelihood candidates from uninterested leads, permitting optimization of marketing resources.</p>
 
                         <h4>Dataset Features & Schema</h4>
                         <ul>
                             <li><strong>Demographics:</strong> Age, Job, Marital Status, Education Level.</li>
-                            <li><strong>Financial Status:</strong> Average Yearly Balance, Credit Default records, Housing debt, Personal Loans.</li>
-                            <li><strong>Current Campaign:</strong> Contact Communication Type (cellular/telephone), Call Day of Month, Call Month of Year, Call Duration (seconds).</li>
-                            <li><strong>Historical Campaign:</strong> Number of Contacts during campaign, Days elapsed since previous contact (pdays), Number of previous contacts, Previous campaign outcomes (success/failure).</li>
+                            <li><strong>Financial Status:</strong> Credit Default records, Housing debt liability, Personal Loans.</li>
+                            <li><strong>Current Campaign:</strong> Contact Communication Type (cellular/telephone), Last Contact Month, Last Contact Day of Week.</li>
+                            <li><strong>Historical Campaign:</strong> Number of Contacts during campaign, Days elapsed since previous contact (pdays), Number of previous contacts, Previous campaign outcomes (success/failure/nonexistent).</li>
+                            <li><strong>Macroeconomic Indicators:</strong> Employment Variation Rate, Consumer Price Index, Consumer Confidence Index, Euribor 3-Month Interest Rate, Number of Employees.</li>
                         </ul>
 
                         <h4>Data Pipeline & Modeling Rules</h4>
                         <p>To avoid label leakage and guarantee production robustness, the pipeline strictly adheres to the <strong>mle-workflow</strong> standards:</p>
                         <ol>
-                            <li><strong>Data Split:</strong> The dataset is partitioned into 80% training and 20% test sets using a <strong>Stratified Split</strong>. This maintains exact positive-to-negative target proportions across folds and prevents training skew on imbalanced targets.</li>
-                            <li><strong>Preprocessing:</strong> Numerical values undergo standard scaling. Categorical attributes are encoded using one-hot encoding derived from fixed configuration parameters. This isolates preprocessing logic and eliminates vocabulary mismatch between Python and Javascript serving.</li>
+                            <li><strong>Data Split:</strong> The dataset is partitioned into 70% training, 15% validation, and 15% test sets using a <strong>Stratified Split</strong>. This maintains exact positive-to-negative target proportions across folds and prevents training skew on imbalanced targets.</li>
+                            <li><strong>Balancing:</strong> We perform majority undersampling on the training set to obtain an exact 50/50 balance, which ensures the models learn representative signals rather than just the majority class.</li>
+                            <li><strong>Preprocessing:</strong> Numerical values undergo standard scaling. Categorical attributes are encoded using one-hot encoding derived from fixed configuration parameters. This isolates preprocessing logic and eliminates vocabulary mismatch between Python and Javascript serving. Call duration is completely dropped to prevent leakage.</li>
                             <li><strong>Model Tiers:</strong>
                                 <ul>
-                                    <li><strong>Logistic Regression:</strong> Fit with L2 regularization and standard coordinate descent. It yields highly interpretable coefficient odds ratios.</li>
-                                    <li><strong>Gradient Boosting:</strong> Configured as a decision tree ensemble. It captures complex non-linear correlations and categorical interactions without needing manual feature crossing.</li>
+                                    <li><strong>Logistic Regression:</strong> Fit with L2 regularization, serving as our interpretable linear baseline.</li>
+                                    <li><strong>K-Nearest Neighbors:</strong> Instance-based learning using distance metrics.</li>
+                                    <li><strong>Naive Bayes:</strong> Probabilistic classification using Bayes theorem.</li>
+                                    <li><strong>Random Forest:</strong> Bagging ensemble of decision trees.</li>
+                                    <li><strong>Gradient Boosting:</strong> Configured as a decision tree ensemble. It captures complex non-linear correlations and categorical interactions, serving as our champion model.</li>
                                 </ul>
                             </li>
                         </ol>
 
                         <h4>Client-Side Sigmoid Inference Engine</h4>
-                        <p>To support high-speed serving and eliminate server runtime costs, the trained model parameters (scale factors, coefficients, and decision tree splitting trees) are compiled into a compact JSON payload. The interactive client simulator on Tab 1 uses a custom in-browser JavaScript engine to evaluate these equations in real-time, matching Python prediction decimals exactly.</p>
+                        <p>To support high-speed serving and eliminate server runtime costs, the trained model parameters (scale factors, coefficients, and decision tree splitting trees) are compiled into a compact JSON payload. The interactive client simulator on Tab 1 uses a custom in-browser JavaScript engine to evaluate these equations in real-time for both the champion Gradient Boosting and baseline Logistic Regression models, matching Python prediction decimals exactly.</p>
                     </div>
                 </div>
             </section>

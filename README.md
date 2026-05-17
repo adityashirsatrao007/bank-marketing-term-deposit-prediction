@@ -1,10 +1,37 @@
-# Aegis Term Deposit Predictor: Serverless ML Pipeline & Glassmorphic Dashboard
+# PREDICTIVE MODELING OF BANK TERM DEPOSIT SUBSCRIPTIONS
 
 [![Aegis ML CI Pipeline](https://github.com/adityashirsatrao007/bank-marketing-term-deposit-prediction/actions/workflows/ci.yml/badge.svg)](https://github.com/adityashirsatrao007/bank-marketing-term-deposit-prediction/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/Python-3.8%2B-green.svg)](https://python.org)
 
-**Aegis Predict** is a state-of-the-art, end-to-end Machine Learning classification and interactive simulation platform designed to predict customer conversion for bank term deposit campaigns (using the UCI Bank Marketing Dataset). It compiles trained model coefficients (Logistic Regression) and recursive regression trees (Gradient Boosting) into a high-performance, serverless client-side engine running directly in vanilla Javascript with micro-second prediction latency.
+---
+
+### 🏫 B.Tech Major Project Submission
+* **Institution**: Nagesh Karajagi Orchid College of Engineering & Technology, Solapur
+* **University/Society**: Pradnya Niketan Education Society (PNES), Pune | Department of AI & DS Engineering
+* **Academic Year**: 2025-2026
+* **Project Type**: Research Case Study submitted in partial fulfillment for the award of B.Tech Degree in AI & DS
+
+#### 👥 Project Team & Credits
+1. **Aditya V. Shirsatrao** (TY AI&DS, Roll 28) - **Project Lead**
+2. **Viha V. Hibare** (TY AI&DS, Roll 27) - **Data Scientist**
+3. **Shravani B. Umbarje** (TY AI&DS, Roll 73) - **ML Engineer**
+4. **Pratik Patange** (TY AI&DS, Roll 55) - **Evaluation Analyst**
+
+---
+
+This repository houses an end-to-end Machine Learning propensity engine designed to predict customer conversion for bank term deposit campaigns using the **UCI Bank Marketing Dataset** (`bank-additional-full.csv`, comprising 41,188 records and 20 features, including vital macroeconomic indicators). 
+
+To prevent data leakage, the call `duration` feature is strictly dropped from training and inference. The pipeline implements a stratified **70/15/15 train/val/test split** and applies **stratified majority undersampling on the training partition** to achieve a robust 50/50 balance. 
+
+Five distinct classifiers were built, trained, and benchmarked:
+1. **Logistic Regression** (L2-Regularized baseline)
+2. **K-Nearest Neighbors (KNN)** (Distance-based model)
+3. **Naive Bayes** (Probabilistic classifier)
+4. **Random Forest** (Bagging ensemble)
+5. **Gradient Boosting** (Champion boosting ensemble)
+
+A serverless client-side engine compiled from the trained model coefficients and tree splits runs live in pure, vanilla JavaScript to deliver real-time propensity scores with microsecond latency.
 
 ---
 
@@ -19,15 +46,15 @@ The system comes packaged with a premium, responsive **visual analytics dashboar
 
 ## 📊 Model Architecture & Evaluation Results
 
-The models are trained using a stratified 80/20 train/test split. Gradient Boosting outperforms as the superior classifier with an outstanding **92.90% ROC-AUC**.
+The models are trained and benchmarked on the test partition. Random Forest and Gradient Boosting lead as the strongest ensembles:
 
-| Evaluation Metric | Logistic Regression | Gradient Boosting (Aegis Ensemble) |
-| :--- | :---: | :---: |
-| **Accuracy** | 90.05% | **90.76%** |
-| **Precision** | 64.11% | **65.90%** |
-| **Recall** | 33.93% | **43.48%** |
-| **F1-Score** | 44.38% | **52.39%** |
-| **ROC-AUC** | 90.61% | **92.90%** |
+| Evaluation Metric | Logistic Regression | K-Nearest Neighbors | Naive Bayes | Random Forest | Gradient Boosting (Champion) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Accuracy** | 82.54% | 72.88% | 87.54% | 84.90% | **82.99%** |
+| **Precision** | 35.19% | 24.66% | 44.80% | 39.63% | **36.23%** |
+| **Recall** | 65.37% | 68.53% | 45.83% | 65.09% | **67.10%** |
+| **F1-Score** | 45.75% | 36.27% | 45.31% | 49.27% | **47.05%** |
+| **ROC-AUC** | 80.41% | 75.50% | 78.59% | **80.77%** | **80.74%** |
 
 ---
 
